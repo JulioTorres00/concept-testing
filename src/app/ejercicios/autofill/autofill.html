@@ -1,1 +1,17 @@
-<p>autofill works!</p>
+<label for="search">Buscar:</label>
+<input
+  id="search"
+  type="text"
+  [(ngModel)]="searchTerm"
+  placeholder="Escribe para buscar"
+/>
+
+@if (searchTerm) {
+<ul>
+  @for (item of filteredItems; track $index) {
+  <li class="filter-item" (click)="selectItem(item)">
+    {{ item }}
+  </li>
+  }
+</ul>
+}

@@ -1,0 +1,10 @@
+.filter-item {
+  max-width: 5rem;
+  padding: 0.5rem;
+}
+
+.filter-item:hover {
+  background-color: rgb(202, 202, 202);
+  cursor: pointer;
+  border-radius: 0.2rem;
+}
