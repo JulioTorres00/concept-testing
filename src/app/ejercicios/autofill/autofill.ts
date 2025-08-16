@@ -18,13 +18,13 @@ export class Autofill {
     'Node',
     'Vue',
     'Design',
-    'Data',
+    'Data Science',
   ];
   searchTerm = '';
 
   // Devuelve los elementos que contienen la búsqueda, sin distinguir mayúsculas
   get filteredItems(): string[] {
-    const term = this.searchTerm.toLowerCase();
+    const term = this.searchTerm.trim().toLowerCase();
     return this.items.filter((item) => item.toLowerCase().includes(term));
   }
 
