@@ -1,97 +1,200 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Autofill } from './autofill';
-import { isReactive } from '@angular/core/primitives/signals';
+import { By } from '@angular/platform-browser';
+import { findIndex } from 'rxjs';
 
 describe('Autofill', () => {
-  let component: Autofill;
-  let fixture: ComponentFixture<Autofill>;
+  describe('Unit Tests', () => {
+    let component: Autofill;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Autofill, FormsModule],
-    }).compileComponents();
+    beforeEach(() => {
+      component = new Autofill();
+    });
 
-    fixture = TestBed.createComponent(Autofill);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should check if searchTerm has no value initially', () => {
+      expect(component.searchTerm).toBe('');
+    });
+
+    it('should return an array with elements containing searchTerm', () => {
+      component.searchTerm = 'D';
+
+      expect(component.filteredItems).toEqual(
+        jasmine.arrayContaining([
+          'Django',
+          'Docker',
+          'Data Science',
+          'Node',
+          'Design',
+        ])
+      );
+      expect(component.filteredItems.length).toBe(5);
+    });
+
+    it('should filter the same items with case-insensitive behavior', () => {
+      component.searchTerm = 'D';
+      const upperCaseArray = component.filteredItems;
+
+      component.searchTerm = 'd';
+      expect(component.filteredItems).toEqual(upperCaseArray);
+    });
+
+    it('should return an empty array if no match is found', () => {
+      component.searchTerm = 'X';
+
+      expect(component.filteredItems).toEqual([]);
+    });
+
+    it('should filter by searchTerm regardless of position', () => {
+      component.searchTerm = 'ang';
+
+      expect(component.filteredItems).toEqual(
+        jasmine.arrayContaining(['Angular', 'Django'])
+      );
+      expect(component.filteredItems.length).toBe(2);
+    });
+
+    it('should update searchTerm when selecItem function is executed', () => {
+      component.selectItem('Docker');
+
+      expect(component.searchTerm).toBe('Docker');
+      expect(component.filteredItems).toEqual(['Docker']);
+    });
+
+    it('should update searchTerm current value when selecItem function is executed', () => {
+      component.searchTerm = 'ang';
+      component.selectItem('Django');
+
+      expect(component.filteredItems).toEqual(['Django']);
+    });
+
+    it('should ignore whitespaces when typing a searchTerm', () => {
+      component.searchTerm = ' D ';
+
+      expect(component.filteredItems.length).toBe(5);
+    });
+
+    it('should handle searching for items with space in between words', () => {
+      component.searchTerm = 'a s';
+
+      expect(component.filteredItems).toEqual(['Data Science']);
+    });
+
+    it('should handle searching for items by words after the first space', () => {
+      component.searchTerm = 'science';
+
+      expect(component.filteredItems).toEqual(['Data Science']);
+    });
+
+    it('should return an empty array when special characters are used', () => {
+      component.searchTerm = '+-/';
+
+      expect(component.filteredItems).toEqual([]);
+    });
+
+    it('should return an empty array when numbers are used', () => {
+      component.searchTerm = '123';
+
+      expect(component.filteredItems).toEqual([]);
+    });
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  describe('Integration Tests', () => {
+    let component: Autofill;
+    let fixture: ComponentFixture<Autofill>;
 
-  it('should check if searchTerm has no value initially', () => {
-    expect(component.searchTerm).toBe('');
-  });
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [Autofill, FormsModule],
+      }).compileComponents();
 
-  it('should return an array with elements containing searchTerm', () => {
-    component.searchTerm = 'D';
+      fixture = TestBed.createComponent(Autofill);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-    expect(component.filteredItems).toEqual(
-      jasmine.arrayContaining([
-        'Django',
-        'Docker',
-        'Data Science',
-        'Node',
-        'Design',
-      ])
-    );
-    expect(component.filteredItems.length).toBe(5);
-  });
+    function searchInputValueSetter(term: string) {
+      const searchInput = fixture.debugElement.query(
+        By.css('#search')
+      ).nativeElement;
 
-  it('should filter the same items with case-insensitive behavior', () => {
-    component.searchTerm = 'D';
-    const upperCaseArray = component.filteredItems;
+      searchInput.value = term;
+      searchInput.dispatchEvent(new Event('input'));
+      fixture.detectChanges();
+    }
 
-    component.searchTerm = 'd';
-    expect(component.filteredItems).toEqual(upperCaseArray);
-  });
+    it('should update search input based on searchTerm', async () => {
+      const searchInput = fixture.debugElement.query(
+        By.css('#search')
+      ).nativeElement;
+      expect(searchInput.value).toBe('');
+      expect(component.searchTerm).toBe('');
 
-  it('should return an empty array if no match is found', () => {
-    component.searchTerm = 'X';
+      component.searchTerm = 'Angular';
+      fixture.detectChanges();
 
-    expect(component.filteredItems).toEqual([]);
-  });
+      await fixture.whenStable();
 
-  it('should filter by searchTerm regardless of position', () => {
-    component.searchTerm = 'ang';
+      expect(searchInput).toBeTruthy();
+      expect(searchInput.type).toBe('text');
+      expect(searchInput.placeholder).toBe('Escribe para buscar');
+      expect(searchInput.value).toEqual(component.searchTerm);
+    });
 
-    expect(component.filteredItems).toEqual(
-      jasmine.arrayContaining(['Angular', 'Django'])
-    );
-    expect(component.filteredItems.length).toBe(2);
-  });
+    it('should update searchTerm based on search input', () => {
+      searchInputValueSetter('Angular');
 
-  it('should update searchTerm when selecItem function is executed', () => {
-    component.selectItem('Docker');
+      expect(component.searchTerm).toEqual('Angular');
+    });
 
-    expect(component.searchTerm).toBe('Docker');
-    expect(component.filteredItems).toEqual(['Docker']);
-  });
+    it('should render ul based on search input', () => {
+      let itemList = fixture.debugElement.query(By.css('ul'));
+      expect(itemList).toBeNull();
 
-  it('should update searchTerm current value when selecItem function is executed', () => {
-    component.searchTerm = 'ang';
-    component.selectItem('Django');
+      searchInputValueSetter('Angular');
 
-    expect(component.filteredItems).toEqual(['Django']);
-  });
+      itemList = fixture.debugElement.query(By.css('ul'));
+      expect(itemList).not.toBeNull();
+    });
 
-  it('should ignore whitespaces when typing a searchTerm', () => {
-    component.searchTerm = ' D ';
+    it('should render li of filteredItems based on search input', () => {
+      let itemList = fixture.debugElement.queryAll(By.css('li'));
 
-    expect(component.filteredItems.length).toBe(5);
-  });
+      searchInputValueSetter('ang');
 
-  it('should handle searching for items with space in between words', () => {
-    component.searchTerm = 'a s';
+      itemList = fixture.debugElement.queryAll(By.css('li'));
+      const filteredItemList = itemList.map((item) =>
+        item.nativeElement.textContent.trim()
+      );
 
-    expect(component.filteredItems).toEqual(['Data Science']);
-  });
+      expect(filteredItemList).toEqual(
+        jasmine.arrayContaining(['Angular', 'Django'])
+      );
+      expect(filteredItemList.length).toBe(2);
+    });
 
-  it('should handle searching for items by words after the first space', () => {
-    component.searchTerm = 'science';
+    it('should update searchTerm when one of the filteredItems is clicked', async () => {
+      searchInputValueSetter('ang');
 
-    expect(component.filteredItems).toEqual(['Data Science']);
+      const item = fixture.debugElement.query(By.css('li')).nativeElement;
+      expect(item).toBeTruthy();
+      item.click();
+      fixture.detectChanges();
+
+      await fixture.whenStable();
+
+      const searchInput = fixture.debugElement.query(
+        By.css('#search')
+      ).nativeElement;
+      expect(searchInput.value).toBe(item.textContent.trim());
+    });
   });
 });
+
+// En el Ul no usamos el nativeElement ya que al estar bajo un If el debugElement.query
+// regresa un null, en los otros casos que no estan condicionados podemos usar nativeElement
+// ya que el debugElement si existe y podemos accesar al elemento DOM nativo/real

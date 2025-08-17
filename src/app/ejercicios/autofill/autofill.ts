@@ -9,8 +9,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './autofill.css',
 })
 export class Autofill {
-  // Datos que se mostrarán; en un caso real pueden provenir de un servicio
-  items = [
+  public items: string[] = [
     'Angular',
     'React',
     'Django',
@@ -20,9 +19,8 @@ export class Autofill {
     'Design',
     'Data Science',
   ];
-  searchTerm = '';
+  public searchTerm: string = '';
 
-  // Devuelve los elementos que contienen la búsqueda, sin distinguir mayúsculas
   get filteredItems(): string[] {
     const term = this.searchTerm.trim().toLowerCase();
     return this.items.filter((item) => item.toLowerCase().includes(term));
