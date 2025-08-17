@@ -1,1 +1,12 @@
-<p>nested-menu works!</p>
+<ul>
+  @for (menuItem of submenuData(); track $index) {
+  <li [style.color]="menuItem.color">
+    @if (menuItem.submenu.length) {
+    <p>{{ menuItem.label }}</p>
+    <app-nested-menu [submenuData]="menuItem.submenu"></app-nested-menu>
+    }@else {
+    <a routerLink="{{ menuItem.url }}">{{ menuItem.label }}</a>
+    }
+  </li>
+  }
+</ul>

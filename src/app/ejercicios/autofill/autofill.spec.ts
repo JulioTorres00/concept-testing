@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Autofill } from './autofill';
 import { By } from '@angular/platform-browser';
-import { findIndex } from 'rxjs';
 
 describe('Autofill', () => {
   describe('Unit Tests', () => {

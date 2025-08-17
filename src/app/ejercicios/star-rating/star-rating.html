@@ -1,1 +1,15 @@
-<p>star-rating works!</p>
+<div class="container">
+  @for (product of productsList(); track $index) {
+  <div class="products">
+    <div id="ratings" class="ratings">
+      <p id="name">{{ product.name }}</p>
+      <p id="rating">
+        {{ product.rating | ratingToStars : 5 }}
+      </p>
+    </div>
+    <div id="content">
+      <p>{{ product.content }}</p>
+    </div>
+  </div>
+  }
+</div>

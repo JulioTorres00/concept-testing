@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.products {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  border: 2px solid;
+  border-color: black;
+  padding: 4px;
+}
+
+.ratings {
+  display: flex;
+  gap: 1rem;
+}

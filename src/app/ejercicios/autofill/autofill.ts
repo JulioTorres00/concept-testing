@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-autofill',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule],
   templateUrl: './autofill.html',
   styleUrl: './autofill.css',
 })
