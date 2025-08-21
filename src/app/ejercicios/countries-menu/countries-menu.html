@@ -1,1 +1,28 @@
-<p>countries-menu works!</p>
+<div class="input-container">
+  <label for="countriesFilter">Buscar: </label>
+  <input
+    type="text"
+    name="countriesFilter"
+    id="countriesFilter"
+    placeholder="Ingrese País..."
+    [(ngModel)]="countriesInput"
+  />
+
+  <label for="countriesOptions">Seleccione Region: </label>
+  <select
+    name="countriesOptions"
+    id="countriesOptions"
+    [(ngModel)]="countriesSelect"
+  >
+    <option value="">Todo</option>
+    <option value="South America">Sur América</option>
+    <option value="North America">Norte America</option>
+  </select>
+</div>
+
+<div class="countries-container">
+  @for (item of filteredCountriesList(); track $index){
+  <img src="{{ item.flags.png }}" alt="{{ item.name.common }} Flag" />
+  <p>{{ item.name.common }}</p>
+  }
+</div>

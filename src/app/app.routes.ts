@@ -1,3 +1,4 @@
+import { CountriesMenuReactive } from './ejercicios/countries-menu-reactive/countries-menu-reactive';
 import { Routes } from '@angular/router';
 import { Autofill } from './ejercicios/autofill/autofill';
 import { CountriesMenu } from './ejercicios/countries-menu/countries-menu';
@@ -10,4 +11,5 @@ export const routes: Routes = [
   { path: 'countries', component: CountriesMenu },
   { path: 'nesting', component: NestedMenu },
   { path: 'stars', component: StarRating },
+  { path: 'countries-reactive', component: CountriesMenuReactive },
 ];

@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { RatingToStarsPipe } from '../extras/rating-to-stars-pipe';
+import { RatingToStarsPipe } from '../extras/pipes/rating-to-stars/rating-to-stars-pipe';
 
 interface Product {
   name: string;
