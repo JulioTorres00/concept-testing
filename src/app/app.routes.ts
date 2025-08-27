@@ -4,6 +4,7 @@ import { Autofill } from './ejercicios/autofill/autofill';
 import { CountriesMenu } from './ejercicios/countries-menu/countries-menu';
 import { NestedMenu } from './ejercicios/nested-menu/nested-menu';
 import { StarRating } from './ejercicios/star-rating/star-rating';
+import { RickMenu } from './ejercicios/rick-menu/rick-menu';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'autofill', pathMatch: 'full' },
@@ -12,4 +13,5 @@ export const routes: Routes = [
   { path: 'nesting', component: NestedMenu },
   { path: 'stars', component: StarRating },
   { path: 'countries-reactive', component: CountriesMenuReactive },
+  { path: 'rick-menu', component: RickMenu },
 ];

@@ -1,0 +1,32 @@
+<div class="filter-container">
+  <label for="searchInput">Nombre:</label>
+  <input type="text" id="searchInput" [(ngModel)]="inputField" />
+
+  <select name="selectField" id="selectField" [(ngModel)]="selectField">
+    <option value="">All</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
+
+  <button (click)="onSearch()">Search</button>
+</div>
+
+@if(dataList().length){
+<table>
+  <th>Id</th>
+  <th>Nombre</th>
+  <th>Status</th>
+  <th>Species</th>
+  <th>Genero</th>
+  @for(character of dataList(); track $index){
+  <tr>
+    <td>{{ character.id }}</td>
+    <td>{{ character.name }}</td>
+    <td>{{ character.status }}</td>
+    <td>{{ character.species }}</td>
+    <td>{{ character.gender }}</td>
+  </tr>
+  }
+</table>
+
+}
