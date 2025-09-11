@@ -5,6 +5,7 @@ import { CountriesMenu } from './ejercicios/countries-menu/countries-menu';
 import { NestedMenu } from './ejercicios/nested-menu/nested-menu';
 import { StarRating } from './ejercicios/star-rating/star-rating';
 import { RickMenu } from './ejercicios/rick-menu/rick-menu';
+import { StackblitzFilter } from './ejercicios/stackblitz-filter/stackblitz-filter';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'autofill', pathMatch: 'full' },
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: 'stars', component: StarRating },
   { path: 'countries-reactive', component: CountriesMenuReactive },
   { path: 'rick-menu', component: RickMenu },
+  { path: 'stackblitz-filter', component: StackblitzFilter },
 ];

@@ -1,0 +1,22 @@
+.search-container {
+  max-width: 400px;
+  margin: auto;
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #eee;
+    }
+  }
+}

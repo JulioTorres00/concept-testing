@@ -1,0 +1,10 @@
+<div class="search-container">
+  <input
+    type="text"
+    placeholder="Search frameworks..."
+    (input)="onInput($event)"
+  />
+  <ul *ngIf="results().length">
+    <li *ngFor="let result of results()">{{ result }}</li>
+  </ul>
+</div>
