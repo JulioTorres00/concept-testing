@@ -29,7 +29,6 @@ export class RickMenu implements OnDestroy {
       .getCharacters(this.inputField(), this.selectField())
       .subscribe({
         next: (data) => {
-          console.log(data);
           this.dataList.set(data);
         },
         error: (error) => {

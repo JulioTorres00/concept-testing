@@ -32,13 +32,15 @@ describe('RickMenu', () => {
     },
   ];
 
+  serviceSpy = jasmine.createSpyObj('RickService', ['getCharacters']);
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RickMenu],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        jasmine.createSpyObj('RickService', ['getCharacters']),
+        { provide: RickService, useValue: serviceSpy }, // ← Proper provider syntax      ],
       ],
     }).compileComponents();
 

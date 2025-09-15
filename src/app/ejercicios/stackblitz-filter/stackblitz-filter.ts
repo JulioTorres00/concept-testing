@@ -33,8 +33,13 @@ export class StackblitzFilter {
         }),
         takeUntilDestroyed(this.destroyRef) // Automatic cleanup
       )
-      .subscribe((results) => {
-        this.results.set([...results]);
+      .subscribe({
+        next: (results) => {
+          this.results.set([...results]);
+        },
+        error: (error) => {
+          this.results.set([]);
+        },
       });
 
     // This is wrong because the effect aplies operators to the call not to the signal changes
